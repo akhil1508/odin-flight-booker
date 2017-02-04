@@ -1,0 +1,33 @@
+<h4>Flight details:</h4>
+Departing from:
+<%=@flight.departing.code%>
+<br />
+To:
+<%=@flight.arriving.code%>
+<br/>
+Scheduled departure:
+<%=@flight.departure_time%>
+<br/>
+Scheduled arrival:
+<%=@flight.arrival_time%>
+</br/>
+<%= form_for @booking do |f| %>
+  <%=f.label :email %>
+  <%= f.email_field :email %>
+<br/>
+
+<% @passengers.each do |passenger| %>
+  <%=fields_for passenger do |passenger_form| %>
+  <%=passenger_form.label :name %>
+  <%= passenger_form.text_field :name %>
+  <%=passenger_form.label :gender%>
+  <%=select_tag :gender, options_for_select(@gender_options)%>
+  <%=passenger_form.label :age %>
+  <%= passenger_form.number_field :age %>
+  <br />
+  <%end%>
+  <%end%>
+   <%= f.hidden_field :flight_id, value: @flight.id%>
+  <%=f.submit "Book my ticket"%>
+
+<%end%>

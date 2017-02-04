@@ -1,0 +1,20 @@
+<%= form_tag '/flight', :method => :get do %>
+<%= select_tag :from_airport, options_for_select(@airport_options)%>
+<%= select_tag :to_airport, options_for_select(@airport_options)%>
+<%= select_tag :date_of_departure, options_for_select(@flight_dates)%>
+<%= select_tag :number_of_passengers, options_for_select(@valid_number_of_passengers)%>
+<%= submit_tag :search %>
+<%end%>
+
+<% if @flights%>
+<h1>Flights found:</h1>
+<%@flights.each do |flight|%>
+Departure:
+<%= flight.departure_time %>
+Arrival:
+<%= flight.arrival_time %>
+From: <%=flight.departing.code%>
+To: <%= flight.arriving.code%>
+<%= link_to "Book Now", controller: :bookings, action: :new, :flight => flight.id, :number_of_passengers => @number_of_passengers%>
+<%end%>
+<%end%>
